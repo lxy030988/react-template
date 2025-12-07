@@ -22,13 +22,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "jest-stare": {
     "coverageLink": "../jest-coverage/lcov-report/index.html",
     "resultDir": "docs/jest-stare"
   },
   "lint-staged": {
     "*.js": "biome lint --fix",
+    "*.jsx": "biome lint --fix",
     "*.ts": "biome lint --fix",
     "*.tsx": "biome lint --fix",
     "*.css": "biome format --write"
