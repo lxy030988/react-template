@@ -13,6 +13,7 @@
     "e2e": "cypress open",
     "e2e:headless": "cypress run",
     "unit": "jest tests/unit --collectCoverage --reporters default jest-stare",
+    "ci:local": "bash scripts/ci-local.sh",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format .",
