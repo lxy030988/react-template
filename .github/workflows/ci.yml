@@ -131,6 +131,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+      
       - name: Run Cypress E2E Tests
         uses: cypress-io/github-action@v6
         with:
@@ -139,7 +147,6 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
           browser: chrome
-          headless: true
       
       - name: Upload Cypress screenshots
         uses: actions/upload-artifact@v4
