@@ -11,6 +11,7 @@
     "prepare": "husky",
     "cypress": "cypress install",
     "e2e": "cypress open",
+    "e2e:headless": "cypress run",
     "unit": "jest tests/unit --collectCoverage --reporters default jest-stare",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",

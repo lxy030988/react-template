@@ -18,6 +18,15 @@ build
 coverage
 .nyc_output
 
+# Test reports
+jest-stare
+jest-coverage
+
+# Cypress artifacts
+cypress/videos
+cypress/screenshots
+cypress/downloads
+
 # Env files
 .env
 .env.local
@@ -27,6 +36,3 @@ coverage
 .DS_Store
 .idea
 *.swp
-
-jest-stare
-jest-coverage
