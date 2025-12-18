@@ -30,7 +30,7 @@ jobs:
         run: echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
       
       - name: Cache pnpm store
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -70,7 +70,7 @@ jobs:
         run: echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
       
       - name: Cache pnpm store
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -84,14 +84,14 @@ jobs:
         run: pnpm run unit
       
       - name: Upload coverage reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: coverage-report
           path: docs/jest-coverage/
       
       - name: Upload test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: jest-stare-report
@@ -121,7 +121,7 @@ jobs:
         run: echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
       
       - name: Cache pnpm store
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -142,14 +142,14 @@ jobs:
           headless: true
       
       - name: Upload Cypress screenshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
       
       - name: Upload Cypress videos
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cypress-videos
@@ -179,7 +179,7 @@ jobs:
         run: echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
       
       - name: Cache pnpm store
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -193,7 +193,7 @@ jobs:
         run: pnpm run prod
       
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist/
