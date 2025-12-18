@@ -128,8 +128,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
       
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
       
       - name: Cache Cypress binary
         uses: actions/cache@v4
@@ -139,9 +137,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-
       
+      - name: Install dependencies with Cypress binary
+        run: pnpm install --frozen-lockfile --config.ignore-scripts=false
+      
+      - name: Verify Cypress installation
+        run: pnpm run cypress
+      
       - name: Run Cypress E2E Tests
         uses: cypress-io/github-action@v6
         with:
+          install: false
           build: pnpm run prod
           start: pnpm run server
           wait-on: 'http://localhost:3000'
