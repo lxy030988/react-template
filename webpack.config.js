@@ -44,16 +44,18 @@ const webpackBaseConfig = {
 			},
 		],
 	},
-    resolve: {
-      alias: {
-        "@": resolve("src/"),
-        "@react-native-async-storage/async-storage": resolve("src/empty-async-storage.ts"),
-      },
-      extensions: [".js", ".ts", ".tsx", ".jsx", ".css"],
-      fallback: {
-        // stream: require.resolve('stream-browserify'),
-      },
-    },
+	resolve: {
+		alias: {
+			"@": resolve("src/"),
+			"@react-native-async-storage/async-storage": resolve(
+				"src/empty-async-storage.ts",
+			),
+		},
+		extensions: [".js", ".ts", ".tsx", ".jsx", ".css"],
+		fallback: {
+			// stream: require.resolve('stream-browserify'),
+		},
+	},
 	plugins: [
 		new CleanWebpackPlugin(),
 		new MiniCssExtractPlugin({
