@@ -19,9 +19,11 @@ coverage
 .nyc_output
 
 # Test reports
+docs
 jest-stare
 jest-coverage
-
+playwright-report
+test-results
 # Cypress artifacts
 cypress/videos
 cypress/screenshots
@@ -31,6 +33,10 @@ cypress/downloads
 .env
 .env.local
 .env.*.local
+.env.test
+
+# MetaMask extension
+tests/e2e/extensions/
 
 # Editor
 .DS_Store
