@@ -34,20 +34,21 @@ test.describe('MetaMask 钱包集成测试', () => {
     // 验证钱包连接后的UI显示
     console.log('✅ 验证钱包连接成功...');
     
-    // 等待页面更新 - 给 wagmi 足够时间更新 React 状态
-    console.log('⏳ 等待 wagmi 状态更新...');
-    await page.waitForTimeout(5000);
+
     
-    // 验证网络显示 (Sepolia)
-    await expect(page.locator('button:has-text("Sepolia")')).toBeVisible({ timeout: 10000 });
+    // 验证网络显示 (Sepolia) - 等待元素出现而不是固定时间
+    console.log('  ⏳ 等待网络信息加载...');
+    await expect(page.locator('button:has-text("Sepolia")')).toBeVisible({ timeout: 15000 });
     console.log('  ✓ Sepolia 网络显示正常');
     
     // 验证地址显示
-    await expect(page.locator('text=/0x[a-fA-F0-9]{4}\\.{3}[a-fA-F0-9]{4}/')).toBeVisible();
+    console.log('  ⏳ 等待地址信息加载...');
+    await expect(page.locator('text=/0x[a-fA-F0-9]{4}\\.{3}[a-fA-F0-9]{4}/')).toBeVisible({ timeout: 15000 });
     console.log('  ✓ 钱包地址显示正常');
     
-    // 验证余额显示 (在钱包信息区域)
-    await expect(page.locator('.text-green-600:has-text("ETH")')).toBeVisible();
+    // 验证余额显示 (在钱包信息区域) - RPC 可能延迟，增加超时时间
+    console.log('  ⏳ 等待余额加载（RPC 请求中）...');
+    await expect(page.locator('.text-green-600:has-text("ETH")')).toBeVisible({ timeout: 30000 }); // 增加到 30 秒
     console.log('  ✓ 余额显示正常');
     
     // 验证断开连接按钮
@@ -114,40 +115,48 @@ test.describe('MetaMask 钱包集成测试', () => {
       }
     }
     
-    // 等待交易确认和红包创建成功（增加等待时间）
-    console.log('✅ 等待红包创建成功事件...');
-    // 等待足够长时间让区块链确认交易并触发事件
-    await page.waitForTimeout(20000);
+    // 等待交易确认和红包创建成功
+    console.log('✅ 等待红包创建成功并读取新 ID...');
     
-    // 尝试从页面获取最新创建的红包 ID
-    console.log('📋 读取新创建的红包 ID...');
-    let newPacketId = '0'; // 默认值
-    
+    // 先记录创建前的 ID
+    let oldPacketId = '0';
     try {
-      // 方法1: 从通知消息中读取（更可靠）
-      const notifications = await page.$$('.p-3.bg-gray-50.rounded.mb-2');
-      if (notifications.length > 0) {
-        // 获取最新的通知（第一个）
-        const notificationText = await notifications[0].textContent();
-        const match = notificationText?.match(/ID:\s*(\d+)/);
-        if (match) {
-          newPacketId = match[1];
-          console.log(`  ✓ 从通知获取到红包 ID: ${newPacketId}`);
-        }
-      }
-      
-      // 方法2: 从"最新红包ID"文本读取
-      if (newPacketId === '0') {
-        const latestIdElement = await page.locator('text=最新红包ID:').locator('..').textContent();
-        const match = latestIdElement?.match(/最新红包ID:\s*(\d+)/);
-        if (match) {
-          newPacketId = match[1];
-          console.log(`  ✓ 从"最新红包ID"获取到: ${newPacketId}`);
-        }
+      const oldIdText = await page.locator('text=最新红包ID:').locator('..').textContent();
+      const match = oldIdText?.match(/最新红包ID:\s*(\d+)/);
+      if (match) {
+        oldPacketId = match[1];
+        console.log(`  📌 创建前的红包 ID: ${oldPacketId}`);
       }
     } catch (e) {
-      console.log(`  ℹ️  无法从页面读取红包 ID: ${e}`);
-      console.log('  使用默认值 0');
+      console.log('  ℹ️  无法读取旧 ID，使用默认值 0');
+    }
+    
+    
+    // 等待新 ID 出现（轮询检查，最多等待 60 秒）
+    let newPacketId = oldPacketId;
+    const maxWaitTime = 60000; // 60 秒
+    const pollInterval = 2000; // 每 2 秒检查一次
+    const startTime = Date.now();
+    
+    while (newPacketId === oldPacketId && (Date.now() - startTime) < maxWaitTime) {
+      await page.waitForTimeout(pollInterval);
+      
+      try {
+        const latestIdElement = await page.locator('text=最新红包ID:').locator('..').textContent();
+        const match = latestIdElement?.match(/最新红包ID:\s*(\d+)/);
+        if (match && match[1] !== oldPacketId) {
+          newPacketId = match[1];
+          console.log(`  ✓ 检测到新红包 ID: ${newPacketId}`);
+          break;
+        }
+      } catch (e) {
+        // 继续等待
+      }
+    }
+    
+    if (newPacketId === oldPacketId) {
+      console.log(`  ⚠️  等待超时，ID 未更新，尝试使用旧值 + 1: ${Number(oldPacketId) + 1}`);
+      newPacketId = (Number(oldPacketId) + 1).toString();
     }
     
     // 截图

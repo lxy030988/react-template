@@ -23,7 +23,6 @@ export const test = base.extend<MetaMaskFixtures>({
     const config: MetaMaskConfig = {
       privateKey: process.env.METAMASK_PRIVATE_KEY || '',
       networkName: process.env.NETWORK_NAME || 'Sepolia',
-      rpcUrl: process.env.RPC_URL || 'https://sepolia.infura.io/v3/YOUR_INFURA_KEY',
       chainId: Number(process.env.CHAIN_ID) || 11155111, // Sepolia
       symbol: process.env.SYMBOL || 'ETH',
     };

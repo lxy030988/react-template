@@ -39,7 +39,6 @@ jobs:
           cat > .env.test << EOF
           METAMASK_PRIVATE_KEY=${{ secrets.METAMASK_PRIVATE_KEY }}
           NETWORK_NAME=Sepolia
-          RPC_URL=${{ secrets.SEPOLIA_RPC_URL }}
           CHAIN_ID=11155111
           SYMBOL=ETH
           RED_PACKET_CONTRACT=${{ secrets.RED_PACKET_CONTRACT }}

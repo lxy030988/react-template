@@ -9,8 +9,9 @@
 在 GitHub 仓库设置中添加以下 Secrets：
 
 1. **METAMASK_PRIVATE_KEY** - 测试账户的私钥（不含 0x 前缀）
-2. **SEPOLIA_RPC_URL** - Sepolia 测试网 RPC URL（可选，使用公共 RPC）
-3. **RED_PACKET_CONTRACT** - 红包合约地址
+2. **RED_PACKET_CONTRACT** - 红包合约地址
+
+> **注意**：不需要配置 RPC URL，MetaMask 和 wagmi 会使用默认的 Sepolia 公共 RPC 端点。
 
 ### 设置步骤
 

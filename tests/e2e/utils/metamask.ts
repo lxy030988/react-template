@@ -8,7 +8,6 @@ import type { BrowserContext, Page } from '@playwright/test';
 export interface MetaMaskConfig {
   privateKey: string;
   networkName?: string;
-  rpcUrl?: string;
   chainId?: number;
   symbol?: string;
 }
