@@ -1,6 +1,18 @@
 const { resolve } = require("path")
 const merge = require("webpack-merge")
-const argv = require("yargs-parser")(process.argv.slice(2))
+const getArgv = () => {
+	const args = process.argv.slice(2)
+	const result = {}
+	for (let i = 0; i < args.length; i++) {
+		if (args[i] === "--mode" && args[i + 1]) {
+			result.mode = args[i + 1]
+		} else if (args[i].startsWith("--mode=")) {
+			result.mode = args[i].split("=")[1]
+		}
+	}
+	return result
+}
+const argv = getArgv()
 const _mode = argv.mode || "development"
 const _mergeConfig = require(`./config/webpack.${_mode}.js`)
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
