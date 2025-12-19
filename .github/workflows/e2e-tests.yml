@@ -1,10 +1,13 @@
 name: E2E Tests with MetaMask
 
+# on:
+#   push:
+#     branches: [ main, develop ]
+#   pull_request:
+#     branches: [ main, develop ]
 on:
-  push:
-    branches: [ main, develop ]
   pull_request:
-    branches: [ main, develop ]
+    types: [opened, synchronize, reopened]
 
 jobs:
   e2e-tests:
