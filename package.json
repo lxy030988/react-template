@@ -34,11 +34,11 @@
     "resultDir": "docs/jest-stare"
   },
   "lint-staged": {
-    "*.js": "biome lint --fix",
-    "*.jsx": "biome lint --fix",
-    "*.ts": "biome lint --fix",
-    "*.tsx": "biome lint --fix",
-    "*.css": "biome format --write"
+    "*.js": "biome lint --fix --no-errors-on-unmatched",
+    "*.jsx": "biome lint --fix --no-errors-on-unmatched",
+    "*.ts": "biome lint --fix --no-errors-on-unmatched",
+    "*.tsx": "biome lint --fix --no-errors-on-unmatched",
+    "*.css": "biome format --write --no-errors-on-unmatched"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.12",
