@@ -1,6 +1,6 @@
-import { test as base, BrowserContext, chromium } from '@playwright/test';
+import { test as base, type BrowserContext, chromium } from '@playwright/test';
 import path from 'path';
-import { MetaMaskConfig, setupMetaMask, waitForMetaMaskExtension } from '../utils/metamask';
+import { type MetaMaskConfig, setupMetaMask, waitForMetaMaskExtension } from '../utils/metamask';
 
 /**
  * 测试夹具
@@ -60,13 +60,20 @@ export const test = base.extend<MetaMaskFixtures>({
     }
     
     // 创建持久化上下文以支持扩展
+    // 注意：Chrome 扩展在传统 headless 模式下不工作
+    // 但可以使用 headless: 'new' (Chrome 的新 headless 模式)
+    // 或者在 CI 环境中使用 Xvfb 虚拟显示
+    const isCI = process.env.CI === 'true';
+    const forceHeadless = process.env.HEADLESS === 'true';
+    
     const context = await chromium.launchPersistentContext('', {
-      headless: false, // MetaMask 需要有头模式
+      headless: false, // Chrome 扩展需要有头模式或使用 Xvfb
       args: [
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,
         '--no-sandbox',
         '--disable-dev-shm-usage',
+        ...(isCI ? ['--disable-gpu', '--disable-software-rasterizer'] : []),
       ],
       viewport: { width: 1280, height: 720 },
     });

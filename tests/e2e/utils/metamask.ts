@@ -1,4 +1,4 @@
-import { BrowserContext, Page } from '@playwright/test';
+import type { BrowserContext, Page } from '@playwright/test';
 
 /**
  * MetaMask 辅助工具
@@ -218,7 +218,7 @@ export async function setupMetaMask(page: Page, config: MetaMaskConfig): Promise
     
     // 获取扩展 ID 并导航到主页
     const extensionUrl = page.url();
-    const extensionId = extensionUrl.match(/chrome-extension:\/\/([^\/]+)/)?.[1];
+    const extensionId = extensionUrl.match(/chrome-extension:\/\/([^/]+)/)?.[1];
     
     if (extensionId) {
       console.log(`  🏠 导航到 MetaMask 主页 (${extensionId})...`);
