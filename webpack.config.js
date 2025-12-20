@@ -1,6 +1,18 @@
 const { resolve } = require("path")
 const merge = require("webpack-merge")
-const argv = require("yargs-parser")(process.argv.slice(2))
+const getArgv = () => {
+	const args = process.argv.slice(2)
+	const result = {}
+	for (let i = 0; i < args.length; i++) {
+		if (args[i] === "--mode" && args[i + 1]) {
+			result.mode = args[i + 1]
+		} else if (args[i].startsWith("--mode=")) {
+			result.mode = args[i].split("=")[1]
+		}
+	}
+	return result
+}
+const argv = getArgv()
 const _mode = argv.mode || "development"
 const _mergeConfig = require(`./config/webpack.${_mode}.js`)
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
@@ -38,7 +50,16 @@ const webpackBaseConfig = {
 				use: [
 					MiniCssExtractPlugin.loader,
 					// 'style-loader',
-					{ loader: "css-loader", options: { importLoaders: 1 } },
+					{ loader: "css-loader", options: { importLoaders: 2 } },
+					// 自定义 loader：转换 matrix3d 为可读的 transform 函数
+					// 注意：loader 从下到上执行，所以这个要在 postcss-loader 之前
+					{
+						loader: resolve("loaders/transform-matrix-loader.js"),
+						options: {
+							precision: 4, // 数字精度
+							verbose: true, // 显示转换日志
+						},
+					},
 					"postcss-loader",
 				],
 			},
@@ -47,6 +68,9 @@ const webpackBaseConfig = {
 	resolve: {
 		alias: {
 			"@": resolve("src/"),
+			"@react-native-async-storage/async-storage": resolve(
+				"src/empty-async-storage.ts",
+			),
 		},
 		extensions: [".js", ".ts", ".tsx", ".jsx", ".css"],
 		fallback: {
