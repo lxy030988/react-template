@@ -41,6 +41,8 @@
     "*.css": "biome format --write --no-errors-on-unmatched"
   },
   "dependencies": {
+    "@monorepo-base/components": "^0.1.0",
+    "@monorepo-base/hooks": "^0.2.0",
     "@tanstack/react-query": "^5.90.12",
     "immer": "^11.0.1",
     "jotai": "^2.15.2",

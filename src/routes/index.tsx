@@ -8,6 +8,7 @@ const About = lazy(() => import("@/pages/About"))
 const Demo = lazy(() => import("@/pages/Demo"))
 const RedPacket = lazy(() => import("@/pages/RedPacket"))
 const TransformExample = lazy(() => import("@/examples/TransformExample"))
+const MonorepoDemo = lazy(() => import("@/pages/MonorepoDemo"))
 
 const routes: RouteObject[] = [
 	{
@@ -51,6 +52,14 @@ const routes: RouteObject[] = [
 				element: (
 					<Suspense fallback={<Loading />}>
 						<TransformExample />
+					</Suspense>
+				),
+			},
+			{
+				path: "monorepo-demo",
+				element: (
+					<Suspense fallback={<Loading />}>
+						<MonorepoDemo />
 					</Suspense>
 				),
 			},
