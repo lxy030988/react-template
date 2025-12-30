@@ -3,6 +3,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 const { join, resolve } = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CompressionPlugin = require("compression-webpack-plugin")
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
 
 module.exports = {
 	output: {
