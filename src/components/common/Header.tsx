@@ -50,6 +50,14 @@ const Header = () => {
 								Monorepo Demo
 							</Link>
 						</li>
+						<li>
+							<Link
+								to="/storage-demo"
+								className="text-gray-700 hover:text-blue-600 transition-colors"
+							>
+								💾 Storage
+							</Link>
+						</li>
 					</ul>
 				</div>
 			</nav>

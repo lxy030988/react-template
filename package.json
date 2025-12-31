@@ -47,12 +47,14 @@
     "immer": "^11.0.1",
     "jotai": "^2.15.2",
     "jotai-immer": "^0.4.1",
+    "localforage": "^1.10.0",
     "quicklink": "^3.0.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-router-dom": "^7.10.1",
     "viem": "^2.43.1",
-    "wagmi": "^2.19.5"
+    "wagmi": "^2.19.5",
+    "workbox-window": "^7.4.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
@@ -62,6 +64,7 @@
     "@swc/jest": "^0.2.39",
     "@tailwindcss/postcss": "^4.1.17",
     "@types/jest": "^30.0.0",
+    "@types/localforage": "^0.0.34",
     "@types/minimatch": "^6.0.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
@@ -95,6 +98,7 @@
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.2",
     "webpack-merge": "^6.0.1",
+    "workbox-webpack-plugin": "^7.4.0",
     "yargs-parser": "^22.0.0"
   }
 }

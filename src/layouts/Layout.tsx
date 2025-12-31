@@ -1,7 +1,7 @@
-import Header from "@/components/common/Header"
-import { useQuicklink } from "@/hooks/useQuicklink"
 import { memo } from "react"
 import { Outlet } from "react-router-dom"
+import Header from "@/components/common/Header"
+import { useQuicklink } from "@/hooks/useQuicklink"
 
 const MainLayout = () => {
 	// 启用 Quicklink 预加载
