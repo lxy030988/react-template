@@ -2,7 +2,9 @@ const TerserPlugin = require("terser-webpack-plugin")
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 const { join, resolve } = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const Critters = require("critters-webpack-plugin")
 const CompressionPlugin = require("compression-webpack-plugin")
+const BrotliPlugin = require("brotli-webpack-plugin")
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
 
 module.exports = {
@@ -81,9 +83,38 @@ module.exports = {
 			filename: "index.html",
 			template: resolve(__dirname, "../src/index-prod.html"),
 			favicon: "./public/favicon.ico",
+			inject: "body",
 		}),
+		// Critters：智能提取并 inline 关键 CSS（Critical CSS）
+		// 只 inline 首屏需要的样式，非关键样式通过 <link> 异步加载
+		// 优点：
+		// 1. HTML 保持小巧（通常只增加 3-8KB）
+		// 2. 首屏渲染更快（无需等待 CSS 文件下载）
+		// 3. 非关键样式仍可被缓存
+		new Critters({
+			// 只处理本地 CSS 文件
+			external: false,
+			// 内联首屏关键 CSS
+			inlineThreshold: 0,
+			// 最小化内联的 CSS
+			minimumExternalSize: 0,
+			// 为非关键 CSS 添加 preload
+			preload: "swap",
+			// 不裁剪字体
+			pruneSource: false,
+			// 压缩内联的 CSS
+			compress: true,
+		}),
+		// GZIP 压缩
 		new CompressionPlugin({
 			algorithm: "gzip",
+			test: /\.(js|css|html|svg)$/i,
+			threshold: 10240,
+			minRatio: 0.8,
+		}),
+		// Brotli 压缩（比GZIP压缩率更高 15-20%）
+		new BrotliPlugin({
+			asset: "[path].br[query]",
 			test: /\.(js|css|html|svg)$/i,
 			threshold: 10240,
 			minRatio: 0.8,
