@@ -1,6 +1,6 @@
+import App from "@/pages/App"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter } from "react-router-dom"
-import App from "@/pages/App"
 import "./style.css"
 import "./wdyr.tsx"
 
@@ -25,3 +25,12 @@ root.render(
 		</QueryClientProvider>
 	</WagmiProvider>,
 )
+
+// 注册 Service Worker（只在生产环境）
+if (process.env.NODE_ENV === "production") {
+	import("./utils/serviceWorkerRegistration").then(
+		({ registerServiceWorker }) => {
+			registerServiceWorker()
+		},
+	)
+}

@@ -6,6 +6,7 @@ const Critters = require("critters-webpack-plugin")
 const CompressionPlugin = require("compression-webpack-plugin")
 const BrotliPlugin = require("brotli-webpack-plugin")
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
+const { InjectManifest } = require("workbox-webpack-plugin")
 
 module.exports = {
 	output: {
@@ -118,6 +119,24 @@ module.exports = {
 			test: /\.(js|css|html|svg)$/i,
 			threshold: 10240,
 			minRatio: 0.8,
+		}),
+		// Workbox Service Worker
+		// 使用 InjectManifest 模式，允许自定义 Service Worker
+		new InjectManifest({
+			swSrc: resolve(__dirname, "../src/service-worker.ts"),
+			swDest: "service-worker.js",
+			// 预缓存的文件类型
+			include: [/\.html$/, /\.js$/, /\.css$/],
+			// 排除不需要预缓存的文件
+			exclude: [
+				/\.map$/,
+				/manifest$/,
+				/\.br$/,
+				/\.gz$/,
+				/^service-worker\.js$/,
+			],
+			// 最大文件大小 (2MB)
+			maximumFileSizeToCacheInBytes: 2 * 1024 * 1024,
 		}),
 	],
 }
