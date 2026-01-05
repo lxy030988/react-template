@@ -284,3 +284,24 @@ ISC
 ---
 
 **Happy Coding! 🎉**
+# react-template
+
+## Hardhat sample
+
+This repo now includes a minimal Hardhat setup for a simple `SimpleStorage` contract.
+
+### Setup
+
+1. Install dependencies:
+
+   ```bash
+   pnpm install
+   ```
+
+2. Copy `.env.example` to `.env` and set `PRIVATE_KEY` (without the `0x` prefix) and `SEPOLIA_RPC_URL`.
+
+### Scripts
+
+- `pnpm compile` – compile Solidity contracts and export ABI to `src/abis/SimpleStorage.ts`.
+- `pnpm deploy:local` – deploy to a local Hardhat node (`pnpm hardhat node`).
+- `pnpm deploy:sepolia` – deploy to Sepolia using the credentials from `.env`.

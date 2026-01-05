@@ -24,6 +24,10 @@ jest-stare
 jest-coverage
 playwright-report
 test-results
+# Hardhat artifacts
+artifacts
+cache
+typechain-types
 # Cypress artifacts
 cypress/videos
 cypress/screenshots
